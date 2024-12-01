@@ -23,7 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Hello Viewer, this is a server part of project - Pro Manager");
+  res.send(
+    "Hello Viewer, this is a server part of project - Food Delivery App"
+  );
 });
 
 app.use("/api/", userRouter);
