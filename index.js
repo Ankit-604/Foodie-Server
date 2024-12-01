@@ -12,7 +12,7 @@ const addressRouter = require("./src/router/addressRouter");
 const debitCardRouter = require("./src/router/debitCardRouter");
 const app = express();
 const corsOptions = {
-  origin: [process.env.LOCAL_FRONTEND_URL || process.env.FRONTEND_URL],
+  origin: [process.env.LOCAL_FRONTEND_URL, process.env.FRONTEND_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
