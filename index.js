@@ -12,7 +12,7 @@ const addressRouter = require("./src/router/addressRouter");
 const debitCardRouter = require("./src/router/debitCardRouter");
 const app = express();
 const corsOptions = {
-  origin: [process.env.LOCAL_FRONTEND_URL, process.env.FRONTEND_URL],
+  origin: [process.env.LOCAL_FRONTEND_URL || process.env.FRONTEND_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
@@ -21,6 +21,10 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 7000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.send("Hello Viewer, this is a server part of project - Pro Manager");
+});
 
 app.use("/api/", userRouter);
 app.use("/api/", imageRouter);
