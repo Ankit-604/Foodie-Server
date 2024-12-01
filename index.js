@@ -11,12 +11,18 @@ const checkoutRouter = require("./src/router/checkoutRouter");
 const addressRouter = require("./src/router/addressRouter");
 const debitCardRouter = require("./src/router/debitCardRouter");
 const app = express();
-const corsOptions = {
-  origin: [process.env.LOCAL_FRONTEND_URL, process.env.FRONTEND_URL],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-};
+// const corsOptions = {
+//   origin: [process.env.LOCAL_FRONTEND_URL, process.env.FRONTEND_URL],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: "https://foodie-client-three.vercel.app/login", // Allow requests from this origin
+  })
+);
 
 const PORT = process.env.PORT || 7000;
 app.use(express.json());
