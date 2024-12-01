@@ -20,7 +20,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://foodie-client-three.vercel.app/login", // Allow requests from this origin
+    origin: "https://foodie-client-three.vercel.app", // Allow requests from this origin
   })
 );
 
