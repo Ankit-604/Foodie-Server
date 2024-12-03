@@ -7,7 +7,6 @@ const validator = require("validator");
 const { validateSignup, validateProfileEdit } = require("../utils/validate");
 require("dotenv").config();
 const userRouter = express.Router();
-
 userRouter.post("/signup", async (req, res) => {
   try {
     validateSignup(req);
@@ -20,7 +19,7 @@ userRouter.post("/signup", async (req, res) => {
     if (!validator.isMobilePhone(phone)) {
       return res
         .status(400)
-        .json({ message: "Invalid phone number", status: "400" });
+        .json({ message: "Invalid phone number,please", status: "400" });
     }
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -48,12 +47,7 @@ userRouter.post("/signup", async (req, res) => {
         .json({ message: "Name is too long", status: "400" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    const user = new User({
-      name,
-      email,
-      password: hashPassword,
-      phone,
-    });
+    const user = new User({ name, email, password: hashPassword, phone });
     await user.save();
     const { password: _, ...safeUserData } = user.toObject();
     return res.status(201).json({
@@ -65,11 +59,9 @@ userRouter.post("/signup", async (req, res) => {
     return res.status(400).json({ message: error.message, status: "400" });
   }
 });
-
 userRouter.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res
         .status(400)
@@ -80,25 +72,20 @@ userRouter.post("/signin", async (req, res) => {
         .status(400)
         .json({ message: "Invalid email format", status: "400" });
     }
-
     const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
         .json({ message: "Invalid email or password", status: "400" });
     }
-
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res
         .status(400)
         .json({ message: "Invalid email or password", status: "400" });
     }
-
     const token = JWT.sign({ email }, process.env.SECRET);
-
     const { password: _, ...safeUserData } = user.toObject();
-
     return res.status(200).json({
       message: "Logged in successfully",
       status: "200",
@@ -112,35 +99,28 @@ userRouter.post("/signin", async (req, res) => {
       .json({ message: "Internal Server Error", status: "500" });
   }
 });
-
 userRouter.get("/profile", userAuth, async (req, res) => {
   try {
     const user = req.user;
-
     return res.json({ message: "user profile", user });
   } catch (error) {
     return res.status(400).json({ message: error.message, status: "400" });
   }
 });
-
 userRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
     const validationError = validateProfileEdit(req.body);
     if (validationError) {
       return res.status(400).json({ message: validationError, status: "400" });
     }
-
     const user = req.user;
-
     const allowedUpdates = ["gender", "fullName", "country"];
     const updates = Object.keys(req.body).filter((key) =>
       allowedUpdates.includes(key)
     );
-
     updates.forEach((key) => {
       user[key] = req.body[key];
     });
-
     await user.save();
     res.status(200).json({
       message: `${user.fullName}, your profile has been updated.`,
@@ -150,5 +130,4 @@ userRouter.patch("/profile/edit", userAuth, async (req, res) => {
     res.status(400).json({ message: `Error: ${error.message}`, status: "400" });
   }
 });
-
 module.exports = userRouter;

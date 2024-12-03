@@ -26,12 +26,10 @@ addressRouter.post("/address", userAuth, async (req, res) => {
       .status(200)
       .json({ message: "Address added successfully.", userAddress });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error. Could not create address.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error. Could not create address.",
+      error: error.message,
+    });
   }
 });
 
@@ -48,12 +46,10 @@ addressRouter.get("/address", userAuth, async (req, res) => {
       .status(200)
       .json({ message: "User addresses retrieved successfully.", userAddress });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error. Could not fetch addresses.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error. Could not fetch addresses.",
+      error: error.message,
+    });
   }
 });
 
@@ -86,12 +82,10 @@ addressRouter.put("/address/:addressId", userAuth, async (req, res) => {
       .status(200)
       .json({ message: "Address updated successfully.", updatedAddress });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error. Could not update address.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error. Could not update address.",
+      error: error.message,
+    });
   }
 });
 
@@ -110,12 +104,10 @@ addressRouter.delete("/address/:addressId", userAuth, async (req, res) => {
 
     return res.status(200).json({ message: "Address deleted successfully." });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error. Could not delete address.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error. Could not delete address.",
+      error: error.message,
+    });
   }
 });
 
@@ -133,12 +125,10 @@ addressRouter.get("/address/:addressId", userAuth, async (req, res) => {
       .status(200)
       .json({ message: "Address retrieved successfully.", userAddress });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error. Could not fetch address.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error. Could not fetch address.",
+      error: error.message,
+    });
   }
 });
 

@@ -86,21 +86,21 @@ debitCardRouter.put("/debitCard/:userCardId", userAuth, async (req, res) => {
       return res.status(400).json({ message: "Invalid CVC" });
     }
 
-    const updatedDabitCard = await DebitCard.findOne({
+    const updatedDebitCard = await DebitCard.findOne({
       _id: req.params.userCardId,
       userId: user._id,
     });
-    if (!updatedDabitCard) {
+    if (!updatedDebitCard) {
       return res.status(404).json({ message: "card not found" });
     }
-    updatedDabitCard.cardNumber = cardNumber || updatedDabitCard.cardNumber;
-    updatedDabitCard.expire = expire || updatedDabitCard.expire;
-    updatedDabitCard.cvc = cvc || updatedDabitCard.cvc;
-    updatedDabitCard.cardName = cardName || updatedDabitCard.cardName;
-    await updatedDabitCard.save();
+    updatedDebitCard.cardNumber = cardNumber || updatedDebitCard.cardNumber;
+    updatedDebitCard.expire = expire || updatedDebitCard.expire;
+    updatedDebitCard.cvc = cvc || updatedDebitCard.cvc;
+    updatedDebitCard.cardName = cardName || updatedDebitCard.cardName;
+    await updatedDebitCard.save();
     res
       .status(200)
-      .json({ message: "card updated successfully", updatedDabitCard });
+      .json({ message: "card updated successfully", updatedDebitCard });
   } catch (error) {
     return res
       .status(500)

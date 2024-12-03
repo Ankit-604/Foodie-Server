@@ -13,12 +13,16 @@ checkoutRouter.post("/checkout/:cartId", userAuth, async (req, res) => {
     const userId = req.user._id;
 
     if (!mongoose.Types.ObjectId.isValid(cartId)) {
-      return res.status(400).json({ message: "Invalid Cart ID format." });
+      return res.status(400).json({
+        message: "Invalid Cart ID format.Please provide a valid cartId.",
+      });
     }
 
     const cart = await Cart.findById(cartId).populate("items.cardId");
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found." });
+      return res
+        .status(404)
+        .json({ message: "No cart found with the given ID." });
     }
 
     const checkout = new Checkout({
@@ -35,16 +39,16 @@ checkoutRouter.post("/checkout/:cartId", userAuth, async (req, res) => {
     );
 
     return res.status(201).json({
-      message: "Checkout created successfully.",
+      message: "Checkout is created successfully.",
       checkoutId: checkout._id,
       cart: cart.items,
       notes: checkout.notes,
       totalPrice,
     });
-  } catch (error) {
+  } catch (err) {
     return res
       .status(500)
-      .json({ message: "Error creating checkout.", error: error.message });
+      .json({ message: "Error creating checkout.", error: err.message });
   }
 });
 
